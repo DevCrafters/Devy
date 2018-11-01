@@ -7,10 +7,6 @@
     "build": "tsc",
     "start": "node dist/bot.js"
   },
-  "engines": {
-    "yarn": "^1.12",
-    "node": "^10.13.0"
-  },
   "dependencies": {
     "color": "^3.1.0",
     "discord.js": "^11.4.2",
