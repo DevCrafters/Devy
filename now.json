@@ -1,0 +1,5 @@
+{
+  "env": {
+    "DEVY_TOKEN": "@secret-devy-token"
+  }
+}

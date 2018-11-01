@@ -1,0 +1,11 @@
+# Modules
+node_modules/
+
+# Code Editor Settings
+.vscode/
+
+# Distribution Files
+dist/
+
+# Secret
+now-secrets.json
