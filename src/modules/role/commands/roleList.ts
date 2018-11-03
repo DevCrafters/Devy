@@ -1,6 +1,6 @@
 import { GuildMember, Message, TextChannel } from 'discord.js'
 import { Command } from '../..//command/command'
-import { gistRoles } from '../gist'
+import { gistRoles, gistRoleNames, gistRoleCategories } from '../gist'
 
 function render(parent: string, data: object, depth: string): string {
   let result = ''
@@ -29,7 +29,7 @@ function render(parent: string, data: object, depth: string): string {
   return result
 }
 
-const roleList = render('', gistRoles, '')
+const roleList = render('', gistRoleCategories, '')
 
 export const RoleListCommand: Command = {
   execute: (

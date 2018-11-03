@@ -4,6 +4,8 @@
     "outDir": "dist",
     "lib": ["es7"],
 
+    "downlevelIteration": true,
+
     "esModuleInterop": true
   }
 }

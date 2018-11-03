@@ -8,7 +8,7 @@ import { initializeWebpage } from './modules/webpage'
 
 export const client = new Client()
 
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`)
 
   initializeActivity()

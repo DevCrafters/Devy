@@ -6,7 +6,7 @@ export const gistRoles: ServerRole[] = []
 
 export let gistRoleCategories = {}
 
-export async function initializeGist() {
+export async function initializeGistRole() {
   const gistOwner = 'RanolP'
   const gistId = '849d4191ad8a19497e1b886e3ee06e5c'
 
@@ -25,7 +25,7 @@ export async function initializeGist() {
     const roleList = response.roles[category]
     for (const id of Object.keys(roleList)) {
       const got = roleList[id]
-      gistRoleNames.push(got.name)
+      gistRoleNames.push(got.name.toLowerCase())
       gistRoles.push(
         new ServerRole(
           category,
@@ -39,6 +39,8 @@ export async function initializeGist() {
       )
     }
   }
+
+  console.log(`Gist role initialized (${gistRoles.length} roles)`)
 }
 
 export const gistRoleNames: string[] = []
