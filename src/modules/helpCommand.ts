@@ -1,6 +1,6 @@
 import { GuildMember, Message, TextChannel } from 'discord.js'
-import { ICommand } from './command/command'
-import { prefix } from './command/commandExecutor'
+import { Command } from './command/command'
+import { commandMap, prefix } from './command/commandExecutor'
 
 export function initializeHelpCommand() {
   const text = `
@@ -15,7 +15,7 @@ export function initializeHelpCommand() {
     .filter(it => it.length > 0)
     .join('\n')
 
-  const helpCommand: ICommand = {
+  const helpCommand: Command = {
     execute: (
       sender: GuildMember,
       channel: TextChannel,
@@ -26,4 +26,6 @@ export function initializeHelpCommand() {
     },
     regex: /도와줘/
   }
+
+  commandMap.register(helpCommand)
 }

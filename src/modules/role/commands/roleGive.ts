@@ -1,9 +1,9 @@
 import { GuildMember, Message, TextChannel } from 'discord.js'
-import { ICommand } from '../../command/command'
+import { Command } from '../../command/command'
 import { prefix } from '../../command/commandExecutor'
-import { flattenNames } from '../definitions'
+import { gistRoleNames } from '../gist'
 
-export const RoleGiveCommand: ICommand = {
+export const RoleGiveCommand: Command = {
   execute: (
     sender: GuildMember,
     channel: TextChannel,
@@ -11,7 +11,7 @@ export const RoleGiveCommand: ICommand = {
     data: RegExpExecArray
   ) => {
     const roleName = data[1]
-    if (!flattenNames.includes(roleName)) {
+    if (!gistRoleNames.includes(roleName)) {
       channel.send(
         `'${roleName}'은 알 수 없는 역할이에요.\n${prefix} 역할 목록 보여줘\n를 쳐서 역할 목록을 확인해주세요.`
       )

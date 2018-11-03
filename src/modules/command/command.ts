@@ -1,6 +1,6 @@
 import { GuildMember, Message, TextChannel } from 'discord.js'
 
-export interface ICommand {
+export interface Command {
   regex: RegExp
 
   execute(

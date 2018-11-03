@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js'
 import { client } from '../../bot'
-import { ICommand } from './command'
+import { Command } from './command'
 
 export function initializeCommandExecutor() {
   const id = client.user.id
@@ -45,8 +45,8 @@ export function initializeCommandExecutor() {
 export let prefix = '@Devy'
 
 export const commandMap = {
-  commands: new Array<ICommand>(),
-  register: (command: ICommand) => {
+  commands: new Array<Command>(),
+  register: (command: Command) => {
     commandMap.commands.push(command)
   }
 }
