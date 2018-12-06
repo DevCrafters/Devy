@@ -1,46 +1,50 @@
-import axios from 'axios'
-import { ServerRole } from './serverRole'
-import { ServerRoleId } from './serverRoleId'
+import { gist, loadGist, saveGist } from '../../base/config';
+import { serialize } from '../../serialize';
+import { reorder } from './positioner';
+import { changes, ServerRole } from './serverRole';
 
-export const gistRoles: ServerRole[] = []
+export const gistRoles: ServerRole[] = [];
 
-export let gistRoleCategories = {}
+export let gistRoleCategories = {};
 
-export async function initializeGistRole() {
-  const gistOwner = 'RanolP'
-  const gistId = '849d4191ad8a19497e1b886e3ee06e5c'
+export async function initializeGistRole(): Promise<string> {
+  await loadGist({ ifNotLoaded: true });
 
-  const rawGist = `https://gist.githubusercontent.com/${gistOwner}/${gistId}/raw`
+  gistRoleCategories = gist['role-categories'];
 
-  const response = (await axios.get(rawGist, {
-    headers: {
-      'Cache-Control': 'no-cache',
-      'Content-Type': 'application/json'
-    }
-  })).data
-
-  gistRoleCategories = response['role-categories']
-
-  for (const category of Object.keys(response.roles)) {
-    const roleList = response.roles[category]
+  const waits = [];
+  for (const category of Object.keys(gist.roles)) {
+    const roleList = gist.roles[category];
     for (const id of Object.keys(roleList)) {
-      const got = roleList[id]
-      gistRoleNames.push(got.name.toLowerCase())
+      const got = roleList[id];
+      gistRoleNames.push(got.name.toLowerCase());
       gistRoles.push(
         new ServerRole(
           category,
           id,
           got.name,
-          new ServerRoleId(
-            got['role-id'].callable,
-            got['role-id']['not-callable']
-          )
+          got['role-id'].callable,
+          got['role-id']['not-callable'],
+          waits
         )
-      )
+      );
     }
   }
 
-  console.log(`Gist role initialized (${gistRoles.length} roles)`)
+  await Promise.all(waits);
+
+  if (changes.size > 0) {
+    await reorder();
+
+    for (const change of changes.values()) {
+      gist.roles[change.category][change.id] = serialize(change);
+    }
+    changes.clear();
+
+    await saveGist();
+  }
+
+  return `Module 'Role' initialized with ${gistRoles.length} roles`;
 }
 
-export const gistRoleNames: string[] = []
+export const gistRoleNames: string[] = [];

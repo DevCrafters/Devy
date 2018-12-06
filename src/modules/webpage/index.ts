@@ -1,9 +1,18 @@
-import express from 'express'
+import express from 'express';
+import { Module } from '../../base/module';
 
-export function initializeWebpage() {
-  const app = express()
+export const WebPageModule: Module = {
+  initialize: initializeWebpage,
+  name: 'WebPage'
+};
 
-  app.get('/test', (req, res) => res.send('Hello, world!'))
+async function initializeWebpage() {
+  const app = express();
 
-  app.listen(80, () => console.log('Devy now listening port 80!'))
+  app.get('/test', (req, res) => res.send('Hello, world!'));
+
+  setTimeout(() => {
+    // prevent blocking
+    app.listen(80, () => console.log('Devy now listening port 80!'));
+  }, 0);
 }

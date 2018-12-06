@@ -1,44 +1,76 @@
-import { GuildMember, Message, TextChannel } from 'discord.js'
-import { Command } from '../..//command/command'
-import { gistRoles, gistRoleNames, gistRoleCategories } from '../gist'
+import {
+  GuildMember,
+  MessageEmbedField,
+  RichEmbed,
+  TextChannel
+} from 'discord.js';
+import { Command } from '../../../base/command';
+import { gist } from '../../../base/config';
+import { color } from '../../../bot';
+import { gistRoleCategories, gistRoles } from '../gist';
 
-function render(parent: string, data: object, depth: string): string {
-  let result = ''
+function render(
+  result: Array<{ category: string; name: string; value: string }>,
+  data: object,
+  parent?: string,
+  parentCategory?: string
+) {
   for (const key of Object.keys(data)) {
     if (key[0] === '@') {
-      continue
+      continue;
     }
-    const got = data[key]
-    result += depth
-    const category = `${parent ? `${parent}/` : ''}${key}`
+    const got = data[key];
+    const category = `${parentCategory ? `${parentCategory}/` : ''}${key}`;
     if (got instanceof Object) {
-      result += `**${got['@name']}**\n`
-      result += render(`${category}`, got, depth + '  ')
+      render(
+        result,
+        got,
+        `${parent ? `${parent} - ` : ''}${got['@name'] || ''}`,
+        category
+      );
     } else {
-      result += `**${got}**\n`
-      result +=
-        depth +
-        '  ' +
-        gistRoles
+      result.push({
+        category,
+        name: `${parent ? `${parent} - ` : ''}${got || ''}`,
+        value: gistRoles
           .filter(role => role.category === category)
           .map(role => role.name)
-          .join(', ') +
-        '\n'
+          .join(', ')
+      });
     }
   }
-  return result
+  result.sort((a, b) => {
+    const orderA = order.indexOf(a.category) + 1 || order.length;
+    const orderB = order.indexOf(b.category) + 1 || order.length;
+
+    return orderA - orderB;
+  });
+  return result;
 }
 
-const roleList = render('', gistRoleCategories, '')
+let order;
+let roleList = null;
 
 export const RoleListCommand: Command = {
-  execute: (
-    sender: GuildMember,
-    channel: TextChannel,
-    message: Message,
-    data: RegExpExecArray
-  ) => {
-    channel.send(roleList)
+  description: '제가 관리하는 역할 목록을 보여드릴게요!',
+  execute: async (sender: GuildMember, channel: TextChannel) => {
+    if (!order) {
+      order = gist['role-category-order'] as string[];
+    }
+    if (!roleList) {
+      const result = [];
+      render(result, gistRoleCategories);
+      roleList = new RichEmbed({
+        color,
+        description: '이 서버에 있는 역할 목록이에요.',
+        fields: result,
+        title: '역할 목록'
+      });
+      // roleList = render('', gistRoleCategories, '');
+    }
+    await channel.send(roleList);
   },
-  regex: /역할 목록 보여줘/
-}
+  namespace: '역할',
+  regex: /역할 목록 보여줘/,
+  usage: '역할 목록 보여줘'
+};

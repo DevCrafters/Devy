@@ -1,4 +1,4 @@
-import Color from 'color'
+import Color from 'color';
 
 export const Colors = {
   design: Color('hsl(40, 60%, 55%)'),
@@ -17,24 +17,24 @@ export const Colors = {
     scripting: Color('hsl(80, 25%, 55%)')
   },
   game: Color('hsl(200, 35%, 55%)')
-}
+};
 
 export function getColorFromCategory(category: string): Color | null {
-  const data = category.split('/')
+  const data = category.split('/');
 
-  let currentObject: object = Colors
+  let currentObject: object = Colors;
   for (
     let index = 0;
     data.length > index && Object.keys(currentObject).includes(data[index]);
     index++
   ) {
-    const got = currentObject[data[index]]
+    const got = currentObject[data[index]];
     if (got instanceof Color) {
-      return got
+      return got;
     } else if (got && got instanceof Object) {
-      currentObject = got
+      currentObject = got;
     }
   }
 
-  return null
+  return null;
 }

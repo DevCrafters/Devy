@@ -1,11 +1,16 @@
 import { Message, TextChannel } from 'discord.js'
-import { client } from '../../bot'
+import { client, guild } from '../bot'
 import { Command } from './command'
+import { Module } from './module'
 
-export function initializeCommandExecutor() {
+export const CommandExecutorModule: Module = {
+  initialize: initializeCommandExecutor,
+  name: 'CommandExecutor'
+}
+
+async function initializeCommandExecutor() {
   const id = client.user.id
   prefix = `<@${id}>`
-  const guild = client.guilds.get('333193886946295808')
 
   client.on('message', async msg => {
     if (!msg.content.startsWith(prefix)) {
