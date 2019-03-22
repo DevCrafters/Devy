@@ -1,4 +1,5 @@
 import express from 'express';
+import { readFileSync } from 'fs';
 import { Module } from '../../base/module';
 
 export const WebPageModule: Module = {
@@ -6,10 +7,14 @@ export const WebPageModule: Module = {
   name: 'WebPage'
 };
 
+const page = readFileSync('./index.html');
+
 async function initializeWebpage() {
   const app = express();
 
-  app.get('/test', (req, res) => res.send('Hello, world!'));
+  app.get('/', (_, res) => res.send(page));
+
+  app.get('*', (_, res) => res.redirect('/'));
 
   setTimeout(() => {
     // prevent blocking

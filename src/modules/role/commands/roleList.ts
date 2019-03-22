@@ -1,9 +1,4 @@
-import {
-  GuildMember,
-  MessageEmbedField,
-  RichEmbed,
-  TextChannel
-} from 'discord.js';
+import { RichEmbed } from 'discord.js';
 import { Command } from '../../../base/command';
 import { gist } from '../../../base/config';
 import { color } from '../../../bot';
@@ -53,7 +48,7 @@ let roleList = null;
 
 export const RoleListCommand: Command = {
   description: '제가 관리하는 역할 목록을 보여드릴게요!',
-  execute: async (sender: GuildMember, channel: TextChannel) => {
+  execute: async (_, channel) => {
     if (!order) {
       order = gist['role-category-order'] as string[];
     }

@@ -1,16 +1,10 @@
-import { GuildMember, Message, TextChannel } from 'discord.js';
 import { Command } from '../../../base/command';
 import { prefix } from '../../../base/commandExecutor';
 import { gistRoleNames } from '../gist';
 
 export const RoleAlarmOffCommand: Command = {
   description: '역할 알림을 꺼드릴게요!',
-  execute: async (
-    sender: GuildMember,
-    channel: TextChannel,
-    message: Message,
-    data: RegExpExecArray
-  ) => {
+  execute: async (sender, channel, _, data) => {
     const dataConverted = data[1].split(',').map(it => it.trim().toLowerCase());
     const notIncluded = dataConverted.filter(it => !gistRoleNames.includes(it));
     if (notIncluded.length > 0) {

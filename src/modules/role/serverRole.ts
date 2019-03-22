@@ -1,6 +1,6 @@
+import { Role } from 'discord.js';
 import { guild } from '../../bot';
 import { getColorFromCategory } from './colors';
-import { Role } from 'discord.js';
 
 export const changes = new Set<ServerRole>();
 export class ServerRole {

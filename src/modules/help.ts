@@ -1,4 +1,4 @@
-import { GuildMember, Message, RichEmbed, TextChannel } from 'discord.js';
+import { GuildMember, RichEmbed, TextChannel } from 'discord.js';
 import { Command } from '../base/command';
 import { commandMap, prefix } from '../base/commandExecutor';
 import { Module } from '../base/module';
@@ -15,12 +15,7 @@ async function initializeHelpCommand() {
 
   const helpCommand: Command = {
     description: '이 도움말을 보여드릴게요!',
-    execute: async (
-      sender: GuildMember,
-      channel: TextChannel,
-      message: Message,
-      data: RegExpExecArray
-    ) => {
+    execute: async (_: GuildMember, channel: TextChannel) => {
       if (!embed) {
         const fields = [];
 
