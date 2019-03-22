@@ -23,8 +23,8 @@ export async function initializeGistRole(): Promise<string> {
           category,
           id,
           got.name,
-          got['role-id'].callable,
-          got['role-id']['not-callable'],
+          got['role-id'] && got['role-id'].callable,
+          got['role-id'] && got['role-id']['not-callable'],
           waits
         )
       );

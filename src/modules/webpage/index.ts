@@ -7,7 +7,7 @@ export const WebPageModule: Module = {
   name: 'WebPage'
 };
 
-const page = readFileSync('./index.html');
+const page = readFileSync(__dirname + '/index.html');
 
 async function initializeWebpage() {
   const app = express();

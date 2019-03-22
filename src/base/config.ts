@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ClientRequest } from 'http';
 
 export let gist = null;
 
@@ -15,12 +14,14 @@ export async function loadGist({ ifNotLoaded = false }) {
     return;
   }
 
-  gist = (await axios.get(rawGist, {
+  const result = await axios.get(rawGist, {
     headers: {
       'Cache-Control': 'no-cache',
       'Content-Type': 'application/json'
     }
-  })).data;
+  });
+
+  gist = result.data;
 }
 
 export async function saveGist() {
