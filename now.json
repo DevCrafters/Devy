@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "env": {
     "DEVY_TOKEN": "@secret-devy-token",
     "GIST_TOKEN": "@secret-gist-token"
