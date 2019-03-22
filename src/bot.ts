@@ -2,7 +2,6 @@ import { Client, Guild } from 'discord.js';
 import 'now-env';
 import { CommandExecutorModule } from './base/commandExecutor';
 import { ActivityModule } from './modules/activity';
-import { DieModule } from './modules/die';
 import { HelpModule } from './modules/help';
 import { RoleModule } from './modules/role';
 import { UptimeModule } from './modules/uptime';
@@ -27,8 +26,7 @@ client.on('ready', async () => {
     // Custom Modules
     RoleModule,
     WebPageModule,
-    UptimeModule,
-    DieModule
+    UptimeModule
   ];
 
   for (const module of modules) {
